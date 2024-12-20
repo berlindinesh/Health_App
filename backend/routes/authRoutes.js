@@ -60,4 +60,26 @@ router.get(
     handleOAuthCallback
 );
 
+// Twitter Strategy
+passport.use(new TwitterStrategy({
+    consumerKey: process.env.TWITTER_CONSUMER_KEY,
+    consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
+    callbackURL: process.env.TWITTER_CALLBACK_URL,
+    includeEmail: true
+}, async (token, tokenSecret, profile, done) => {
+    try {
+        let user = await User.findOne({ twitterId: profile.id });
+        if (!user) {
+            user = new User({
+                twitterId: profile.id,
+                name: profile.displayName,
+                email: profile.emails[0].value
+            });
+            await user.save();
+        }
+        done(null, user);
+    } catch (error) {
+        done(error, null);
+    }
+}));
 module.exports = router;

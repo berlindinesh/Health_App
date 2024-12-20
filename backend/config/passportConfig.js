@@ -6,6 +6,7 @@ const User = require('../models/User');
 const axios = require('axios');
 require('dotenv').config();
 const FacebookStrategy = require('passport-facebook').Strategy;
+const TwitterStrategy = require('passport-twitter').Strategy;
 
 // Serialize and Deserialize User
 passport.serializeUser((user, done) => {
@@ -98,7 +99,7 @@ passport.use(
             clientID: process.env.LINKEDIN_CLIENT_ID,
             clientSecret: process.env.LINKEDIN_CLIENT_SECRET,
             callbackURL: process.env.LINKEDIN_CALLBACK_URL || "/api/auth/linkedin/callback",
-            scope: ['r_emailaddress', 'r_liteprofile'],
+            scope: ['openid', 'profile', 'email'],
         },
         async (accessToken, refreshToken, profile, done) => {
             try {
@@ -145,6 +146,31 @@ passport.use(
             done(null, user);
         }
     )
+);
+
+// Twitter Strategy
+passport.use(new TwitterStrategy({
+    consumerKey: process.env.TWITTER_CONSUMER_KEY,
+    consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
+    callbackURL: process.env.TWITTER_CALLBACK_URL,
+    includeEmail: true
+}, async (token, tokenSecret, profile, done) => {
+    try {
+        let user = await User.findOne({ twitterId: profile.id });
+        if (!user) {
+            user = new User({
+                twitterId: profile.id,
+                name: profile.displayName,
+                email: profile.emails[0].value
+            });
+            await user.save();
+        }
+        done(null, user);
+    } catch (error) {
+        done(error, null);
+    }
+}
+)
 );
 
 

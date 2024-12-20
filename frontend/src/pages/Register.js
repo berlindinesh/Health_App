@@ -32,6 +32,10 @@ const Register = () => {
         window.location.href = 'http://localhost:5000/api/auth/facebook';
     };
 
+    const twitterLogin = () => {
+        window.location.href = 'http://localhost:5000/auth/twitter';
+    };
+
 
 
     const handleRegister = async (e) => {
@@ -164,6 +168,9 @@ const Register = () => {
                     </button>
                     <button onClick={facebookLogin} style={{ padding: '10px 20px', backgroundColor: '#1877F2', color: '#fff', border: 'none', borderRadius: '5px', marginTop: '10px' }}>
                         Sign-up with Facebook
+                    </button>
+                    <button onClick={twitterLogin} style={{ padding: '10px 20px', backgroundColor: '#1877F2', color: '#fff', border: 'none', borderRadius: '5px', marginTop: '10px' }}>
+                        Sign-up with X
                     </button>
                 </div>
             </form>

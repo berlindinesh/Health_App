@@ -28,6 +28,12 @@ const Register = () => {
         window.location.href = 'http://localhost:5000/api/auth/linkedin';
     };
 
+    const facebookLogin = () => {
+        window.location.href = 'http://localhost:5000/api/auth/facebook';
+    };
+
+
+
     const handleRegister = async (e) => {
         e.preventDefault();
         setMessage('');
@@ -155,6 +161,9 @@ const Register = () => {
                     </button>
                     <button onClick={linkedinLogin} style={{ marginRight: '10px', padding: '10px 20px', backgroundColor: '#0077B5', color: '#fff', border: 'none', borderRadius: '5px' }}>
                         Sign-up with LinkedIn
+                    </button>
+                    <button onClick={facebookLogin} style={{ padding: '10px 20px', backgroundColor: '#1877F2', color: '#fff', border: 'none', borderRadius: '5px', marginTop: '10px' }}>
+                        Sign-up with Facebook
                     </button>
                 </div>
             </form>

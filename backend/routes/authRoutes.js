@@ -52,4 +52,12 @@ router.get('/linkedin/callback',
     res.redirect('/dashboard');  // Redirect to your desired route after login
   });
 
+// Facebook OAuth
+router.get('/facebook', passport.authenticate('facebook', { scope: ['email'] }));
+router.get(
+    '/facebook/callback',
+    passport.authenticate('facebook', { failureRedirect: '/' }),
+    handleOAuthCallback
+);
+
 module.exports = router;

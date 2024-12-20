@@ -10,4 +10,10 @@ const login = (email, password) => {
     return axios.post(`${API_URL}/login`, { email, password });
 };
 
-export { register, login };
+const linkedinLogin = (code) => {
+    return axios.post(`${API_URL}/auth/linkedin`, { code });
+};
+
+
+export { register, login , linkedinLogin };
+

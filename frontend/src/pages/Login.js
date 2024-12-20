@@ -28,6 +28,12 @@ const Login = () => {
         window.location.href = 'http://localhost:5000/api/auth/linkedin';
     };
 
+    const facebookLogin = () => {
+        window.location.href = 'http://localhost:5000/api/auth/facebook';
+    };
+
+
+
     const handleLogin = async (e) => {
         e.preventDefault();
         setMessage('');
@@ -143,6 +149,11 @@ const Login = () => {
                 <button onClick={linkedinLogin} style={{ padding: '10px 20px', backgroundColor: '#0077B5', color: '#fff', border: 'none', borderRadius: '5px' }}>
                     Sign-in with LinkedIn
                 </button>
+                <button onClick={facebookLogin} style={{ padding: '10px 20px', backgroundColor: '#1877F2', color: '#fff', border: 'none', borderRadius: '5px', marginTop: '10px' }}>
+                    Sign-up with Facebook
+                </button>
+
+        
             </div>
 
             {message && (

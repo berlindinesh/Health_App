@@ -5,6 +5,7 @@ const LinkedInStrategy = require('passport-linkedin-oauth2').Strategy;  // Make 
 const User = require('../models/User');
 const axios = require('axios');
 require('dotenv').config();
+const FacebookStrategy = require('passport-facebook').Strategy;
 
 // Serialize and Deserialize User
 passport.serializeUser((user, done) => {
@@ -117,5 +118,34 @@ passport.use(
         }
     )
 );
+
+// Facebook Strategy
+passport.use(
+    new FacebookStrategy(
+        {
+            clientID: process.env.FACEBOOK_CLIENT_ID,
+            clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
+            callbackURL: '/api/auth/facebook/callback',
+            profileFields: ['id', 'emails', 'name', 'picture.type(large)'],
+        },
+        async (accessToken, refreshToken, profile, done) => {
+            const email = profile.emails && profile.emails[0] ? profile.emails[0].value : null;
+            const name = `${profile.name.givenName} ${profile.name.familyName}`;
+            const picture = profile.photos && profile.photos[0] ? profile.photos[0].value : null;
+
+            if (!email) {
+                return done(new Error('Email not available in Facebook profile'));
+            }
+
+            // Find or Create User
+            let user = await User.findOne({ email });
+            if (!user) {
+                user = await User.create({ email, name, profilePicture: picture, provider: 'facebook' });
+            }
+            done(null, user);
+        }
+    )
+);
+
 
 module.exports = passport;

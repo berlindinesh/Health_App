@@ -16,7 +16,7 @@ import AppointmentPreview from './components/AppointmentPreview';
 import ProtectedRoute from './components/ProtectedRoute';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
-import PaymentForm from './components/PaymentForm';
+//import PaymentForm from './components/PaymentForm';
 
 
 const App = () => {
@@ -43,7 +43,7 @@ const App = () => {
                         <Route path="/reset-password/:token" element={<ResetPassword />} />
                         <Route path="/doctor-selection" element={<DoctorSelection />} />
                         <Route path="/appointment/:doctorId" element={<AppointmentBooking />} />
-                        <Route path="/payment" element={<PaymentForm />} />
+                        {/* <Route path="/payment" element={<PaymentForm />} /> */}
                         <Route path="/appointment-preview" element={<AppointmentPreview />} />
                        
                     </Routes>

@@ -17,7 +17,7 @@ const DoctorSelection = () => {
         { id: '63f847f5e152fa29e074aa22', name: 'Dr. G.Keertana Reddy', specialty: 'Obstetrics & Gynaecology', location: 'Hyderabad' },
         { id: '63f847f5e152fa29e074aa23', name: 'Dr. Roopa Ghanta', specialty: 'Obstetrics & Gynaecology', location: 'Hyderabad' },
         { id: '63f847f5e152fa29e074aa24', name: 'Dr. Anupama', specialty: 'Orthopedic', location: 'Hyderabad' },
-        { id: '63f847f5e152fa29e074aa25', name: 'Dr. Padmavati Kapila', specialty: 'Pediatrician', location: 'Hyderabad' },
+        { id: '63f847f5e152fa29e074aa25', name: 'Dr. Padmavati Kapila', specialty: 'Pediatrician', location: 'Hyderabad', hospital: 'Apollo Hospital' },
         { id: '63f847f5e152fa29e074aa26', name: 'Dr. Sreelatha Jella', specialty: 'Psychiatrist', location: 'Bangalore' },
         { id: '63f847f5e152fa29e074aa27', name: 'Dr. Archana Agarwal', specialty: 'Cardiologist', location: 'Bangalore' },
         { id: '63f847f5e152fa29e074aa28', name: 'Dr. Rashmi Swaroop', specialty: 'Orthopedic', location: 'Bangalore' },
@@ -37,7 +37,8 @@ const DoctorSelection = () => {
 
     const filteredDoctors = doctors.filter((doctor) =>
         (specialtyFilter ? doctor.specialty?.toLowerCase().includes(specialtyFilter.toLowerCase()) : true) &&
-        (locationFilter ? doctor.location?.toLowerCase().includes(locationFilter.toLowerCase()) : true)
+        (locationFilter ? doctor.location?.toLowerCase().includes(locationFilter.toLowerCase()) : true)&&
+        (doctor.hospital ? doctor.hospital.toLowerCase().includes(locationFilter.toLowerCase()) : true)
     );
 
     useEffect(() => {
@@ -51,16 +52,16 @@ const DoctorSelection = () => {
 
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
-        const token = urlParams.get('token');
-
-        if (token) {
-            login(token); // Login using context
+        const urlToken = urlParams.get('token');
+        const storedToken = localStorage.getItem('token');
+    
+        if (urlToken || storedToken) {
+            login(urlToken || storedToken);
         } else {
-            setError("Authentication token is missing. Redirecting to login...");
-            setTimeout(() => navigate('/login'), 3000); // Redirect after 3 seconds
+            setError("Authentication required. Redirecting to login...");
+            setTimeout(() => navigate('/login'), 3000);
         }
     }, [login, navigate]);
-
     return (
         <Box
             component={motion.div}

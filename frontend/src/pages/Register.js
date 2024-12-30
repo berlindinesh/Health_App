@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { TextField, Button, Box, Typography, IconButton, InputAdornment } from '@mui/material';
 import { motion } from 'framer-motion';
 import { gsap } from 'gsap';
-import { FaEyeSlash, FaEye } from 'react-icons/fa'; 
+import { FaEyeSlash, FaEye, FaGoogle, FaGithub, FaLinkedin, FaFacebook, FaTwitter } from 'react-icons/fa';
 import './styles/Register.css';
 
 const Register = () => {
@@ -36,8 +36,6 @@ const Register = () => {
         window.location.href = 'http://localhost:5000/auth/twitter';
     };
 
-
-
     const handleRegister = async (e) => {
         e.preventDefault();
         setMessage('');
@@ -55,7 +53,7 @@ const Register = () => {
                 navigate('/verify-otp', { state: { email } });
             }, 2000);
         } catch (error) {
-            console.error("Registration Error:", error.response?.data); 
+            console.error("Registration Error:", error.response?.data);
             setMessage(error.response?.data?.message || 'Registration failed. Please try again.');
         }
     };
@@ -156,24 +154,34 @@ const Register = () => {
                 >
                     SignUp
                 </Button>
-                <div style={{ textAlign: 'center', marginTop: '10px' }}>
-                    <button onClick={googleLogin} style={{ marginRight: '10px', padding: '10px 20px', backgroundColor: '#DB4437', color: '#fff', border: 'none', borderRadius: '5px' }}>
-                        Sign-up with Google
-                    </button>
-                    <button onClick={githubLogin} style={{ marginRight: '10px', padding: '10px 20px', backgroundColor: '#24292e', color: '#fff', border: 'none', borderRadius: '5px' }}>
-                        Sign-up with GitHub
-                    </button>
-                    <button onClick={linkedinLogin} style={{ marginRight: '10px', padding: '10px 20px', backgroundColor: '#0077B5', color: '#fff', border: 'none', borderRadius: '5px' }}>
-                        Sign-up with LinkedIn
-                    </button>
-                    <button onClick={facebookLogin} style={{ padding: '10px 20px', backgroundColor: '#1877F2', color: '#fff', border: 'none', borderRadius: '5px', marginTop: '10px' }}>
-                        Sign-up with Facebook
-                    </button>
-                    <button onClick={twitterLogin} style={{ padding: '10px 20px', backgroundColor: '#1877F2', color: '#fff', border: 'none', borderRadius: '5px', marginTop: '10px' }}>
-                        Sign-up with X
-                    </button>
-                </div>
             </form>
+
+            <div className="divider">
+                <span>or sign up with</span>
+            </div>
+
+            <div className="social-buttons-container">
+                <button className="social-button google-btn" onClick={googleLogin}>
+                    <FaGoogle className="social-icon" />
+                    Google
+                </button>
+                <button className="social-button github-btn" onClick={githubLogin}>
+                    <FaGithub className="social-icon" />
+                    GitHub
+                </button>
+                <button className="social-button linkedin-btn" onClick={linkedinLogin}>
+                    <FaLinkedin className="social-icon" />
+                    LinkedIn
+                </button>
+                <button className="social-button facebook-btn" onClick={facebookLogin}>
+                    <FaFacebook className="social-icon" />
+                    Facebook
+                </button>
+                <button className="social-button twitter-btn" onClick={twitterLogin}>
+                    <FaTwitter className="social-icon" />
+                    X
+                </button>
+            </div>
 
             {message && (
                 <Typography
